@@ -51,9 +51,30 @@ void loop(void)
             delay(SLEEP_TIME);
             Keyboard.release(KEY_RETURN);
             delay(SLEEP_TIME);
-            Keyboard.print(data);
-            data = "";
-            Keyboard.press(KEY_RETURN);
+
+            // empty string between newlines is the
+            // signal to change chat channels. Delay
+            // a bit during this process so user has
+            // time to see the impact of the change.
+            if (data.length() == 0)
+            {
+                Keyboard.press(KEY_TAB);
+                delay(SLEEP_TIME);
+                Keyboard.release(KEY_TAB);
+                data = "";
+                delay(1000);
+                Keyboard.press(KEY_ESC);
+            }
+            else
+            {
+                // If not the change-channel signal, send
+                // the received data as a callout on the
+                // current channel.
+                Keyboard.print(data);
+                data = "";
+                Keyboard.press(KEY_RETURN);
+            }
+
             delay(SLEEP_TIME);
             Keyboard.releaseAll();
         }
