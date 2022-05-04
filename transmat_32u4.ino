@@ -7,7 +7,11 @@
 #include "Adafruit_BluefruitLE_UART.h"
 
 #define MINIMUM_FIRMWARE_VERSION_LED "0.6.6"
-#define SLEEP_TIME 20
+#define SLEEP_TIME 40 // In milliseconds
+
+// Note: 40ms for SLEEP_TIME is a 'safe' value. On Xbox this can be reduced to 20ms for
+// faster callout delivery but PS4 Pro will not tolerate a 20ms delay. Not sure about PS5
+// don't have one to test with. Maybe make this an app setting in the future
 
 Adafruit_BluefruitLE_SPI ble(8, 7, 4);
 
