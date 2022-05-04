@@ -45,45 +45,40 @@ void loop(void)
     {
         char ch = (char)ble.read();
 
-        if (ch == '\n')
-        {
-            Keyboard.press(KEY_ESC);
-            delay(SLEEP_TIME);
-            Keyboard.release(KEY_ESC);
-            delay(SLEEP_TIME);
+        if (ch == '\n') {
             Keyboard.press(KEY_RETURN);
             delay(SLEEP_TIME);
             Keyboard.release(KEY_RETURN);
-            delay(SLEEP_TIME);
 
             // empty string between newlines is the
             // signal to change chat channels. Delay
             // a bit during this process so user has
             // time to see the impact of the change.
-            if (data.length() == 0)
-            {
+            if (data.length() == 0) {
+                data = "";
                 Keyboard.press(KEY_TAB);
                 delay(SLEEP_TIME);
                 Keyboard.release(KEY_TAB);
-                data = "";
                 delay(1000);
                 Keyboard.press(KEY_ESC);
-            }
-            else
-            {
+                delay(SLEEP_TIME);
+                Keyboard.release(KEY_ESC);
+            } else {
                 // If not the change-channel signal, send
                 // the received data as a callout on the
-                // current channel.
-                Keyboard.print(data);
-                data = "";
-                Keyboard.press(KEY_RETURN);
-            }
+                // current channel.                
+                for (auto x: data) {
+                    Keyboard.write(x);
+                }
 
-            delay(SLEEP_TIME);
-            Keyboard.releaseAll();
-        }
-        else
-        {
+                delay(SLEEP_TIME);
+                Keyboard.press(KEY_RETURN);
+                delay(SLEEP_TIME);
+                Keyboard.release(KEY_RETURN);
+
+                data = "";
+            }
+        } else {
             data += ch;
         }
     }
