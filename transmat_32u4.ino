@@ -55,29 +55,24 @@ void loop(void)
             // a bit during this process so user has
             // time to see the impact of the change.
             if (data.length() == 0) {
-                data = "";
                 Keyboard.press(KEY_TAB);
                 delay(SLEEP_TIME);
                 Keyboard.release(KEY_TAB);
                 delay(1000);
-                Keyboard.press(KEY_ESC);
-                delay(SLEEP_TIME);
-                Keyboard.release(KEY_ESC);
             } else {
                 // If not the change-channel signal, send
                 // the received data as a callout on the
                 // current channel.                
-                for (auto x: data) {
-                    Keyboard.write(x);
+                for (char ch : data) {
+                    Keyboard.write(ch);
                 }
-
-                delay(SLEEP_TIME);
-                Keyboard.press(KEY_RETURN);
-                delay(SLEEP_TIME);
-                Keyboard.release(KEY_RETURN);
-
-                data = "";
             }
+            
+            delay(SLEEP_TIME);
+            Keyboard.press(KEY_RETURN);
+            delay(SLEEP_TIME);
+            Keyboard.release(KEY_RETURN);
+            data = "";
         } else {
             data += ch;
         }
